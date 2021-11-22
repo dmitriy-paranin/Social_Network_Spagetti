@@ -4,10 +4,10 @@
     padding: 20px;
 }
 
-.a {
+.item a {
     color: white;
+    text-decoration: none;
 }
 
-.active {
-    background-color: mediumpurple;
-}
+
+
