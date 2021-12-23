@@ -5,11 +5,26 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 
+let posts = [
+    {id: 1, message: 'Hi, how are you!', likesCount: 6},
+    {id: 2, message: 'Don\'t worry', likesCount: 10},
+    {id: 3, message: 'It\'s my first post superstar', likesCount: 12},
+]
+
+type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+
+export type MyPostsType = {
+    posts: Array<PostType>
+}
 
 ReactDOM.render(
   <React.StrictMode>
       <BrowserRouter>
-          <App />
+          <App posts={posts}/>
       </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
