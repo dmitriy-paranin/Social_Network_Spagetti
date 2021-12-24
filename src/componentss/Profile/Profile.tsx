@@ -2,10 +2,10 @@ import React from "react";
 import s from './Prof ile.module.css';
 import MyPosts from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {MyPostsType} from "./../../index"
+import {PostsType} from "./../../index"
 
 
-const Profile = (props:MyPostsType) => {
+const Profile = (props:PostsType) => {
     return (
         <div>
             <ProfileInfo/>

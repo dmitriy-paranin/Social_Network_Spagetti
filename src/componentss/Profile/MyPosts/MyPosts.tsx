@@ -1,10 +1,11 @@
 import React from "react";
 import s from './MyPosts.module.css';
 import Post from "./Post/Post";
-import {MyPostsType} from "../../../index";
+import {PostsType} from "../../../index";
 
 
-const MyPosts = (props:MyPostsType) => {
+
+const MyPosts = (props:PostsType) => {
       let postsElements = props.posts.map((p) => <Post message={p.message} likesCount={p.likesCount}/>)
 
     return (
