@@ -1,6 +1,6 @@
 
 
-let state: RootSatateType = {
+let state: RootStateType = {
     profilePage: {
         posts: [
             {id: 1, message: 'Hi, how are you!', likesCount: 6},
@@ -35,10 +35,11 @@ export type DialogType = {
     id: number
     name: string
 }
-export type MessageType = {
+type MessageType = {
     id: number
     message: string
 }
+//не экспортируется, т.к. id не используется в компоненте, типизация прописана в Message.tsx
 
 export type ProfilePageType = {
     posts: Array<PostType>
@@ -48,7 +49,7 @@ export type DialogsPageType = {
     messages: Array<MessageType>
 }
 
-export type RootSatateType = {
+export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
 }

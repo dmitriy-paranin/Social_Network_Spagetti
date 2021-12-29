@@ -8,10 +8,13 @@ import Dialogs from "./componentss/Dialogs/Dialogs";
 import Music from "./componentss/Music/Music";
 import News from "./componentss/News/News";
 import Settings from "./componentss/Settings/Settings";
-import {RootSatateType} from "./redux/state";
+import {RootStateType} from "./redux/state";
 
+type AppPropsType = {
+    state: RootStateType
+}
 
-const App = (props:RootSatateType)=> {
+const App = (props: AppPropsType) => {
     return (
         <div className='app-spagetti'>
             <Header/>
@@ -19,9 +22,9 @@ const App = (props:RootSatateType)=> {
             <div className='app-spagetti-content'>
                 <Routes>
                     <Route path='/dialogs' element={<Dialogs
-                        state = {props.state.dialogsPage}/>}/>
+                        dialogsPage={props.state.dialogsPage}/>}/>
                     <Route path='/profile' element={<Profile
-                        state = {props.state.profilePage}/>}/>
+                        profilePage={props.state.profilePage}/>}/>
                     <Route path='/news' element={<News/>}/>
                     <Route path='/music' element={<Music/>}/>
                     <Route path='/settings' element={<Settings/>}/>
