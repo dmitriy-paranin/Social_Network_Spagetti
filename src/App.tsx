@@ -8,11 +8,12 @@ import Dialogs from "./componentss/Dialogs/Dialogs";
 import Music from "./componentss/Music/Music";
 import News from "./componentss/News/News";
 import Settings from "./componentss/Settings/Settings";
-import {RootStateType} from "./redux/state";
+import {RootStateType, addPost} from "./redux/state";
 
 
 type AppPropsType = {
     state: RootStateType
+    addPostCallback: (postText: string) => void
 }
 
 
@@ -28,7 +29,7 @@ const App = (props: AppPropsType) => {
                         dialogsPage={props.state.dialogsPage}/>}/>
                     <Route path='/profile' element={<Profile
                         profilePage={props.state.profilePage}
-                        addPost={props.addPost}/>}/>
+                        addPostCallback={addPost}/>}/>
                     <Route path='/news' element={<News/>}/>
                     <Route path='/music' element={<Music/>}/>
                     <Route path='/settings' element={<Settings/>}/>
