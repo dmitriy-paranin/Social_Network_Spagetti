@@ -5,7 +5,7 @@ import {PostType} from "../../../redux/state";
 
 type MyPostsPropsType = {
     posts: Array<PostType>
-    addPostCallback: (postText: string) => void
+    addPost: (postText: string) => void
 }
 
 
@@ -14,26 +14,26 @@ const MyPosts = (props:MyPostsPropsType) => {
 
     let newPostElement = React.createRef<HTMLTextAreaElement>();
 
-    let addPost = () => {
+    let addNewPost = () => {
         if (newPostElement.current) {
-            props.addPostCallback(newPostElement.current.value)
+            props.addPost(newPostElement.current.value)
         }
+    }
 
-        return (
+    return (
+        <div>
+            <h3>My posts</h3>
             <div>
-                <h3>My posts</h3>
-                <div>
-                    <textarea ref={newPostElement}></textarea>
-                    <button onClick={addPost}>Add post</button>
-                    <button>Remove</button>
-                </div>
-                <div className={s.posts}>
-                    <div className={s.item}>
-                        {postsElements}
-                    </div>
+                <textarea ref={newPostElement}></textarea>
+                <button onClick={addNewPost}>Add post</button>
+                <button>Remove</button>
+            </div>
+            <div className={s.posts}>
+                <div className={s.item}>
+                    {postsElements}
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
-export default MyPosts;
+export default MyPosts
