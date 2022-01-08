@@ -1,4 +1,4 @@
-
+import {renderTree} from "../render";
 
 let state: RootStateType = {
     profilePage: {
@@ -62,6 +62,7 @@ export const addPost = (postText: string) => {
         likesCount: 0,
     };
     state.profilePage.posts.push(newPost);
+    renderTree(state)
 }
 
 

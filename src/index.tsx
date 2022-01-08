@@ -6,18 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import state, {RootStateType} from "./redux/state";
 import {addPost} from "./redux/state";
+import {renderTree} from "./render";
 
 
-const renderTree = (state: RootStateType) => {
-    ReactDOM.render(
-        <React.StrictMode>
-            <BrowserRouter>
-                <App state={state} addPost={addPost}/>
-            </BrowserRouter>
-        </React.StrictMode>,
-        document.getElementById('root')
-    );
-}
 renderTree(state);
 
 
