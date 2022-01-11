@@ -15,6 +15,7 @@ const Profile = (props:ProfilePropsType) => {
             <ProfileInfo/>
             <MyPosts
                 posts={props.profilePage.posts}
+                newPostText={props.profilePage.newPostText}
                 addPost={props.addPost}/>
         </div>
     )
