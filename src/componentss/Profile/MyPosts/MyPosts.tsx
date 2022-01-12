@@ -7,28 +7,24 @@ type MyPostsPropsType = {
     posts: Array<PostType>
     addPost: (postText: string) => void
     newPostText: string
+    updateNewPostText: (newText: string) => void
 }
-
 
 const MyPosts = (props:MyPostsPropsType) => {
     let postsElements = props.posts.map((p) => <Post message={p.message} likesCount={p.likesCount}/>)
 
-    let newPostElement = React.createRef<HTMLTextAreaElement>();
+    let addNewPost = () => {props.addPost(props.newPostText)}
 
-    let addNewPost = () => {
-        if (newPostElement.current) {
-            props.addPost(newPostElement.current.value)
-        };
-        /*newPostElement.current.value = '';*/
+    let onPostCgange = (e) => {
+        props.
     }
-let onPostCgange = () => {
 
-}
     return (
         <div>
             <h3>My posts</h3>
+
             <div>
-                <textarea onChange={onPostCgange} ref={newPostElement} value={props.newPostText}/>
+                <textarea onChange={onPostCgange} value={props.newPostText}/>
                 <button onClick={addNewPost}>Add post</button>
                 <button>Remove</button>
             </div>

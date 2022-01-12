@@ -41,7 +41,6 @@ type MessageType = {
     message: string
 }
 //не экспортируется, т.к. id не используется в компоненте, типизация прописана в Message.tsx
-
 export type ProfilePageType = {
     posts: Array<PostType>
     newPostText: string
@@ -50,12 +49,10 @@ export type DialogsPageType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
 }
-
 export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
 }
-
 
 export const addPost = (postText: string) => {
     const newPost: PostType = {
@@ -67,6 +64,9 @@ export const addPost = (postText: string) => {
     renderTree(state)
 }
 
-
+export const updateNewPostText = (newText: string) => {
+    state.profilePage.newPostText = newText;
+    renderTree(state);
+}
 
 export default state
