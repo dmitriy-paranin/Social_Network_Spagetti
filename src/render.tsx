@@ -8,7 +8,7 @@ import {RootStateType, updateNewPostText} from "./redux/state";
 import {addPost} from "./redux/state";
 
 
-export const renderTree = (state: RootStateType) => {
+export let rerenderEntireTree = (state: RootStateType) => {
     ReactDOM.render(
         <React.StrictMode>
             <BrowserRouter>
