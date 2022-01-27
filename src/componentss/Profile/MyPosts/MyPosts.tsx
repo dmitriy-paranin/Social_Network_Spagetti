@@ -15,9 +15,7 @@ const MyPosts = (props:MyPostsPropsType) => {
 
     let newPostElement: any = React.createRef();
 
-    let addNewPost = () => {props.addPost(props.newPostText)
-    props.updateNewPostText('')
-    }
+    let addNewPost = () => {props.addPost(props.newPostText)}
 
     let onPostCgange = () => {
     let text = newPostElement.current.value;
