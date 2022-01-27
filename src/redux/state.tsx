@@ -7,7 +7,7 @@ let state: RootStateType = {
             {id: 2, message: 'Don\'t worry', likesCount: 10},
             {id: 3, message: 'It\'s my first post superstar', likesCount: 12},
         ],
-        newPostText: 'it-camasutra'
+        newPostText: 'it-camasutra',
     },
     dialogsPage: {
         dialogs: [
