@@ -8,18 +8,15 @@ import Dialogs from "./componentss/Dialogs/Dialogs";
 import Music from "./componentss/Music/Music";
 import News from "./componentss/News/News";
 import Settings from "./componentss/Settings/Settings";
-import {RootStateType, addPost, updateNewPostText} from "./redux/state";
-
+import {StoreType} from "./redux/state";
 
 type AppPropsType = {
-    state: RootStateType
-    addPost: (postText:string) => void
-    updateNewPostText: (newText:string) => void
+    store: StoreType
 }
 
+const App: React.FC<AppPropsType> = (props) => {
+    const state = props.store.getState();
 
-
-const App = (props: AppPropsType) => {
     return (
         <div className='app-spagetti'>
             <Header/>
@@ -27,11 +24,11 @@ const App = (props: AppPropsType) => {
             <div className='app-spagetti-content'>
                 <Routes>
                     <Route path='/dialogs' element={<Dialogs
-                        dialogsPage={props.state.dialogsPage}/>}/>
+                        dialogsPage={state.dialogsPage}/>}/>
                     <Route path='/profile' element={<Profile
-                        profilePage={props.state.profilePage}
-                        addPost={props.addPost}
-                        updateNewPostText={updateNewPostText}/>}/>
+                        profilePage={state.profilePage}
+                        addPost={props.store.addPost.bind(props.store)}
+                        updateNewPostText={props.store.updateNewPostText.bind(props.store)}/>}/>
                     <Route path='/news' element={<News/>}/>
                     <Route path='/music' element={<Music/>}/>
                     <Route path='/settings' element={<Settings/>}/>

@@ -1,8 +1,40 @@
-let rerenderEntireTree = () => {
-    console.log('State changed')
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+export type DialogType = {
+    id: number
+    name: string
+}
+type MessageType = {
+    id: number
+    message: string
+}
+export type ProfilePageType = {
+    posts: Array<PostType>
+    newPostText: string
+}
+export type DialogsPageType = {
+    dialogs: Array<DialogType>
+    messages: Array<MessageType>
+}
+export type RootStateType = {
+    profilePage: ProfilePageType
+    dialogsPage: DialogsPageType
 }
 
-let state: RootStateType = {
+export type StoreType = {
+    _state: RootStateType
+    updateNewPostText: (newText: string) => void
+    addPost: (postText: string) => void
+    _rerenderEntireTree: () => void
+    subscribe: (observer: () => void) => void
+    getState: () => RootStateType
+}
+
+const store: StoreType = {
+    _state: {
     profilePage: {
         posts: [
             {id: 1, message: 'Hi, how are you!', likesCount: 6},
@@ -27,53 +59,30 @@ let state: RootStateType = {
             {id: 5, message: 'Yo'},
         ],
     },
+},
+    updateNewPostText(newText: string) {
+        this._state.profilePage.newPostText = newText;
+        this._rerenderEntireTree();
+    },
+    addPost(postText: string) {
+        const newPost: PostType = {
+            id: new Date().getTime(),
+            message: postText,
+            likesCount: 0,
+        };
+        this._state.profilePage.posts.push(newPost);
+        this._state.profilePage.newPostText = '';
+        this._rerenderEntireTree()
+    },
+    _rerenderEntireTree () {
+        console.log('State changed')
+    },
+    subscribe (observer) {
+        this._rerenderEntireTree = observer;  //это  патэрн
+    },
+    getState() {
+        return this._state;
+    }
 }
 
-export type PostType = {
-    id: number
-    message: string
-    likesCount: number
-}
-export type DialogType = {
-    id: number
-    name: string
-}
-type MessageType = {
-    id: number
-    message: string
-}
-
-export type ProfilePageType = {
-    posts: Array<PostType>
-    newPostText: string
-}
-export type DialogsPageType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
-}
-export type RootStateType = {
-    profilePage: ProfilePageType
-    dialogsPage: DialogsPageType
-}
-
-export const addPost = (postText: string) => {
-    const newPost: PostType = {
-        id: new Date().getTime(),
-        message: postText,
-        likesCount: 0,
-    };
-    state.profilePage.posts.push(newPost);
-    state.profilePage.newPostText = '';
-    rerenderEntireTree()
-}
-
-export const updateNewPostText = (newText: string) => {
-    state.profilePage.newPostText = newText;
-    rerenderEntireTree();
-}
-
-export const subscribe = (observer: () => void) => {
-    rerenderEntireTree = observer;  //это  патэрн
-}
-
-export default state
+export default store
