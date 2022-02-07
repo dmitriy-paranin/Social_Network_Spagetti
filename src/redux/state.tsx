@@ -26,63 +26,71 @@ export type RootStateType = {
 
 export type StoreType = {
     _state: RootStateType
-    updateNewPostText: (newText: string) => void
-    addPost: (postText: string) => void
-    _rerenderEntireTree: () => void
-    subscribe: (observer: () => void) => void
+    _callSubscriber: () => void
     getState: () => RootStateType
+    addPost: (postText: string) => void
+    updateNewPostText: (newText: string) => void
+    subscribe: (observer: () => void) => void
 }
+const ADD_POST = 'ADD-POST';
+const DATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 
 const store: StoreType = {
     _state: {
-    profilePage: {
-        posts: [
-            {id: 1, message: 'Hi, how are you!', likesCount: 6},
-            {id: 2, message: 'Don\'t worry', likesCount: 10},
-            {id: 3, message: 'It\'s my first post superstar', likesCount: 12},
-        ],
-        newPostText: 'it-camasutra',
+        profilePage: {
+            posts: [
+                {id: 1, message: 'Hi, how are you!', likesCount: 6},
+                {id: 2, message: 'Don\'t worry', likesCount: 10},
+                {id: 3, message: 'It\'s my first post superstar', likesCount: 12},
+            ],
+            newPostText: 'it-camasutra',
+        },
+        dialogsPage: {
+            dialogs: [
+                {id: 1, name: 'Dima'},
+                {id: 2, name: 'Tanya'},
+                {id: 3, name: 'Liza'},
+                {id: 4, name: 'Madonna'},
+                {id: 5, name: 'Jon'},
+            ],
+            messages: [
+                {id: 1, message: 'Hi!'},
+                {id: 2, message: "Don't worry"},
+                {id: 3, message: "I'm superstar"},
+                {id: 4, message: 'Yo'},
+                {id: 5, message: 'Yo'},
+            ],
+        },
     },
-    dialogsPage: {
-        dialogs: [
-            {id: 1, name: 'Dima'},
-            {id: 2, name: 'Tanya'},
-            {id: 3, name: 'Liza'},
-            {id: 4, name: 'Madonna'},
-            {id: 5, name: 'Jon'},
-        ],
-        messages: [
-            {id: 1, message: 'Hi!'},
-            {id: 2, message: "Don't worry"},
-            {id: 3, message: "I'm superstar"},
-            {id: 4, message: 'Yo'},
-            {id: 5, message: 'Yo'},
-        ],
-    },
-},
-    updateNewPostText(newText: string) {
-        this._state.profilePage.newPostText = newText;
-        this._rerenderEntireTree();
-    },
-    addPost(postText: string) {
-        const newPost: PostType = {
-            id: new Date().getTime(),
-            message: postText,
-            likesCount: 0,
-        };
-        this._state.profilePage.posts.push(newPost);
-        this._state.profilePage.newPostText = '';
-        this._rerenderEntireTree()
-    },
-    _rerenderEntireTree () {
+    _callSubscriber() {
         console.log('State changed')
     },
-    subscribe (observer) {
-        this._rerenderEntireTree = observer;  //это  патэрн
-    },
+
     getState() {
         return this._state;
-    }
+    },
+    subscribe(observer) {
+        this._callSubscriber = observer;  //это  патэрн
+    },
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            const newPost: PostType = {
+                id: new Date().getTime(),
+                message: action.postText,
+                likesCount: 0,
+            };
+            this._state.profilePage.posts.push(newPost);
+            this._state.profilePage.newPostText = '';
+            this._callSubscriber(this._state)
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.newText;
+            this._callSubscriber(this._state);
+        }
+    },
 }
 
-export default store
+export const addPostActionCreator = () => ({type: ADD_POST});
+export const updateNewPostTextActionCreator = (text: string) => ({type: DATE_NEW_POST_TEXT, newText: text});
+
+export default store;
+window.store = store;
