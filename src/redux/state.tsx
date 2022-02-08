@@ -18,6 +18,7 @@ export type ProfilePageType = {
 export type DialogsPageType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
+    newMessageBody: string
 }
 export type RootStateType = {
     profilePage: ProfilePageType
@@ -34,6 +35,7 @@ export type StoreType = {
 }
 const ADD_POST = 'ADD-POST';
 const DATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const SEND_MESSAGE = 'UPDATE_NEW_MESSAGE_BODY';
 
 const store: StoreType = {
     _state: {
@@ -60,6 +62,7 @@ const store: StoreType = {
                 {id: 4, message: 'Yo'},
                 {id: 5, message: 'Yo'},
             ],
+            newMessageBody: "",
         },
     },
     _callSubscriber() {
@@ -73,7 +76,7 @@ const store: StoreType = {
         this._callSubscriber = observer;  //это  патэрн
     },
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
+        if (action.type === ADD_POST) {
             const newPost: PostType = {
                 id: new Date().getTime(),
                 message: action.postText,
@@ -82,8 +85,13 @@ const store: StoreType = {
             this._state.profilePage.posts.push(newPost);
             this._state.profilePage.newPostText = '';
             this._callSubscriber(this._state)
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+        } else if (action.type === DATE_NEW_POST_TEXT) {
             this._state.profilePage.newPostText = action.newText;
+            this._callSubscriber(this._state);
+        } else if (action.type === SEND_MESSAGE) {
+            let body = this._state.dialogsPage.newMessageBody = action.body;
+            this._state.dialogsPage.newMessageBody = action.body = "";
+            this._state.dialogsPage.messages.push({id: 6, message: body});
             this._callSubscriber(this._state);
         }
     },
