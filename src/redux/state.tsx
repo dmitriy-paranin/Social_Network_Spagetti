@@ -35,7 +35,7 @@ export type StoreType = {
 }
 const ADD_POST = 'ADD-POST';
 const DATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const SEND_MESSAGE = 'UPDATE_NEW_MESSAGE_BODY';
+const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
 
 const store: StoreType = {
     _state: {
@@ -98,7 +98,10 @@ const store: StoreType = {
 }
 
 export const addPostActionCreator = () => ({type: ADD_POST});
-export const updateNewPostTextActionCreator = (text: string) => ({type: DATE_NEW_POST_TEXT, newText: text});
+export const updateNewPostTextActionCreator = (text: string) => ({type: UPDATE_NEW_POST_TEXT, newText: text});
+
+export const sendMessageCreator = () => ({type: SEND_MESSAGE});
+export const updateNewMessageBodyCreator = (body: string) => ({type: UPDATE_NEW_MESSAGE_BODY, body: body});
 
 export default store;
 window.store = store;
