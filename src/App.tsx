@@ -8,10 +8,11 @@ import Dialogs from "./componentss/Dialogs/Dialogs";
 import Music from "./componentss/Music/Music";
 import News from "./componentss/News/News";
 import Settings from "./componentss/Settings/Settings";
-import {StoreType} from "./redux/state";
+import {ActionsType, StoreType} from "./redux/state";
 
 type AppPropsType = {
     store: StoreType
+    dispatch: (action: ActionsType) => void
 }
 
 const App: React.FC<AppPropsType> = (props) => {
@@ -23,13 +24,17 @@ const App: React.FC<AppPropsType> = (props) => {
             <NavBar/>
             <div className='app-spagetti-content'>
                 <Routes>
-                    <Route path='/dialogs' element={<Dialogs
-                        dialogsPage={state.dialogsPage}/>}/>
-                    <Route path='/profile' element={<Profile
-                        profilePage={state.profilePage}
+                    <Route path='/dialogs' element={
+                        <Dialogs
+                            store={props.store}
+                        />
+                    }/>
+                    <Route path='/profile' element={
+                        <Profile
+                        profilePage={props.store._state.profilePage}
                         dispatch={props.store.dispatch.bind(props.store)}
-                        /*addPost={props.store.addPost.bind(props.store)}
-                        updateNewPostText={props.store.updateNewPostText.bind(props.store)}*//>}/>
+                        />
+                    }/>
                     <Route path='/news' element={<News/>}/>
                     <Route path='/music' element={<Music/>}/>
                     <Route path='/settings' element={<Settings/>}/>

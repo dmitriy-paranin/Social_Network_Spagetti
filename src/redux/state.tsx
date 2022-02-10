@@ -28,14 +28,33 @@ export type RootStateType = {
 export type StoreType = {
     _state: RootStateType
     _callSubscriber: () => void
-    getState: () => RootStateType
-    addPost: (postText: string) => void
-    updateNewPostText: (newText: string) => void
     subscribe: (observer: () => void) => void
+    getState: () => RootStateType
+    dispatch: (action: ActionsType) => void
 }
+
+type AddPostActionType = {
+    type: 'ADD-POST'
+    postText: string
+}
+type UpdateNewPostTextActionType = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    newText: string
+}
+type UpdateNewMessageBodyActionType = {
+    type: 'UPDATE-NEW-MESSAGE-BODY'
+    body: string
+}
+type SendMessageActionType = {
+    type: 'SEND-MESSAGE'
+}
+export type ActionsType = AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageBodyActionType | SendMessageActionType;
+
+
 const ADD_POST = 'ADD-POST';
-const DATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
+const SEND_MESSAGE = 'SEND-MESSAGE';
 
 const store: StoreType = {
     _state: {
@@ -68,40 +87,44 @@ const store: StoreType = {
     _callSubscriber() {
         console.log('State changed')
     },
-
-    getState() {
-        return this._state;
-    },
     subscribe(observer) {
         this._callSubscriber = observer;  //это  патэрн
     },
+    getState() {
+        return this._state;
+    },
+
     dispatch(action) {
         if (action.type === ADD_POST) {
-            const newPost: PostType = {
+            let newPost: PostType = {
                 id: new Date().getTime(),
                 message: action.postText,
                 likesCount: 0,
             };
             this._state.profilePage.posts.push(newPost);
             this._state.profilePage.newPostText = '';
-            this._callSubscriber(this._state)
-        } else if (action.type === DATE_NEW_POST_TEXT) {
+            this._callSubscriber()
+        } else if (action.type === UPDATE_NEW_POST_TEXT) {
             this._state.profilePage.newPostText = action.newText;
-            this._callSubscriber(this._state);
+            this._callSubscriber();
+        } else if (action.type === UPDATE_NEW_MESSAGE_BODY) {
+            this._state.dialogsPage.newMessageBody = action.body;
+            this._callSubscriber();
         } else if (action.type === SEND_MESSAGE) {
-            let body = this._state.dialogsPage.newMessageBody = action.body;
-            this._state.dialogsPage.newMessageBody = action.body = "";
-            this._state.dialogsPage.messages.push({id: 6, message: body});
-            this._callSubscriber(this._state);
+            let body = this._state.dialogsPage.newMessageBody;
+            this._state.dialogsPage.newMessageBody = '';
+            this._state.dialogsPage.messages.push({id: 6, message: body})
+            this._callSubscriber();
         }
-    },
+    }
 }
 
-export const addPostActionCreator = () => ({type: ADD_POST});
-export const updateNewPostTextActionCreator = (text: string) => ({type: UPDATE_NEW_POST_TEXT, newText: text});
+export const addPostActionCreator = (postText: string): AddPostActionType => ({type: ADD_POST, postText: postText});
+export const updateNewPostTextActionCreator = (text: string): UpdateNewPostTextActionType => ({type: UPDATE_NEW_POST_TEXT, newText: text});
 
-export const sendMessageCreator = () => ({type: SEND_MESSAGE});
-export const updateNewMessageBodyCreator = (body: string) => ({type: UPDATE_NEW_MESSAGE_BODY, body: body});
+export const sendMessageCreator = (): SendMessageActionType => ({type: SEND_MESSAGE});
+export const updateNewMessageBodyCreator = (body: string): UpdateNewMessageBodyActionType => ({type: UPDATE_NEW_MESSAGE_BODY, body: body});
 
 export default store;
-window.store = store;
+
+

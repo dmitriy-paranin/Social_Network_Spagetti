@@ -2,36 +2,21 @@ import React from "react";
 import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogsItem";
 import Message from "./Message/Message";
-import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/state";
-//import {DialogsPageType, DialogType} from "../../redux/state";
+import {sendMessageCreator, StoreType, updateNewMessageBodyCreator} from "../../redux/state";
 
-type DialogType = {
-    id: number
-    name: string}
-
-type MessageType = {
-    id: number
-    message: string}
-
-type DialogsPageType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
-    newMessageBody: string
+type DialogsType = {
+    store: StoreType
 }
 
-type DialogsPropsType = {
-    dialogsPage: DialogsPageType}
+const Dialogs = (props: DialogsType) => {
 
-const Dialogs = (props: DialogsPropsType) => {
-
-    let dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem id={d.id} name={d.name} />);
-    let messagesElemets = props.dialogsPage.messages.map(m => <Message /*id={m.id}*/ message={m.message} />);
-    let newMessageBody = props.dialogsPage.newMessageBody;
-
+    let state = props.store.getState();
+    let dialogsElements = state.dialogsPage.dialogs.map(d => <DialogItem id={d.id} name={d.name} />);
+    let messagesElements = state.dialogsPage.messages.map(m => <Message /*id={m.id}*/ message={m.message} />);
+    let newMessageBody = state.dialogsPage.newMessageBody;
     let onSendMessageClick = () => {
         props.store.dispatch(sendMessageCreator());
     };
-
     let onNewMessageChange = (e) => {
         let body = e.target.value;
         props.store.dispatch(updateNewMessageBodyCreator(body));
@@ -43,7 +28,7 @@ const Dialogs = (props: DialogsPropsType) => {
                 { dialogsElements }
             </div>
             <div className={s.messages}>
-                <div>{messagesElemets}</div>
+                <div>{messagesElements}</div>
                 <div>
                     <div><textarea value={newMessageBody}
                                    onChange={onNewMessageChange}
