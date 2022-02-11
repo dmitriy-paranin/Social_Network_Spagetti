@@ -35,7 +35,6 @@ export type StoreType = {
 
 type AddPostActionType = {
     type: 'ADD-POST'
-    postText: string
 }
 type UpdateNewPostTextActionType = {
     type: 'UPDATE-NEW-POST-TEXT'
@@ -64,7 +63,7 @@ const store: StoreType = {
                 {id: 2, message: 'Don\'t worry', likesCount: 10},
                 {id: 3, message: 'It\'s my first post superstar', likesCount: 12},
             ],
-            newPostText: 'it-camasutra',
+            newPostText: '',
         },
         dialogsPage: {
             dialogs: [
@@ -98,7 +97,7 @@ const store: StoreType = {
         if (action.type === ADD_POST) {
             let newPost: PostType = {
                 id: new Date().getTime(),
-                message: action.postText,
+                message: this._state.profilePage.newPostText,
                 likesCount: 0,
             };
             this._state.profilePage.posts.push(newPost);
@@ -119,7 +118,7 @@ const store: StoreType = {
     }
 }
 
-export const addPostActionCreator = (postText: string): AddPostActionType => ({type: ADD_POST, postText: postText});
+export const addPostActionCreator = (): AddPostActionType => ({type: ADD_POST});
 export const updateNewPostTextActionCreator = (text: string): UpdateNewPostTextActionType => ({type: UPDATE_NEW_POST_TEXT, newText: text});
 
 export const sendMessageCreator = (): SendMessageActionType => ({type: SEND_MESSAGE});

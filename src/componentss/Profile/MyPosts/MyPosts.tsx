@@ -5,9 +5,7 @@ import {ActionsType, addPostActionCreator, PostType, updateNewPostTextActionCrea
 
 type MyPostsPropsType = {
     posts: Array<PostType>
-    addPostCallback: (postText: string) => void
     newPostText: string
-    updateNewPostText: (newText: string) => void
     dispatch: (action: ActionsType) => void
 }
 
