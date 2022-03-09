@@ -1,6 +1,5 @@
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
-import sidebarReducer from "./sidebar-reducer";
 
 export type PostType = {
     id: number
@@ -24,9 +23,11 @@ export type DialogsPageType = {
     messages: Array<MessageType>
     newMessageBody: string
 }
+
 export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
+    /*sidebar: SidebarType*/
 }
 
 export type StoreType = {
@@ -37,18 +38,18 @@ export type StoreType = {
     dispatch: (action: ActionsType) => void
 }
 
-type AddPostActionType = {
+export type AddPostActionType = {
     type: 'ADD-POST'
 }
-type UpdateNewPostTextActionType = {
+export type UpdateNewPostTextActionType = {
     type: 'UPDATE-NEW-POST-TEXT'
     newText: string
 }
-type UpdateNewMessageBodyActionType = {
+export type UpdateNewMessageBodyActionType = {
     type: 'UPDATE-NEW-MESSAGE-BODY'
     body: string
 }
-type SendMessageActionType = {
+export type SendMessageActionType = {
     type: 'SEND-MESSAGE'
 }
 export type ActionsType = AddPostActionType | UpdateNewPostTextActionType | UpdateNewMessageBodyActionType | SendMessageActionType;
@@ -80,7 +81,6 @@ const store: StoreType = {
             ],
             newMessageBody: "",
         },
-        sidebar: {}
     },
     _callSubscriber() {
         console.log('State changed')
@@ -93,10 +93,9 @@ const store: StoreType = {
     },
 
     dispatch(action) {
-
         this._state.profilePage = profileReducer(this._state.profilePage, action);
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
-        this._state.sidebar = sidebarReducer(this._state.sidebar, action);
+     /*   this._state.sidebar = sidebarReducer(this._state.sidebar, action);*/
             this._callSubscriber();
         }
     }

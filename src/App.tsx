@@ -4,11 +4,11 @@ import {Route, Routes} from "react-router-dom";
 import Header from "./componentss/Header/Header";
 import NavBar from "./componentss/NavBar/NavBar";
 import Profile from "./componentss/Profile/Profile";
-import Dialogs from "./componentss/Dialogs/Dialogs";
 import Music from "./componentss/Music/Music";
 import News from "./componentss/News/News";
 import Settings from "./componentss/Settings/Settings";
-import {ActionsType, StoreType} from "./redux/state";
+import {ActionsType, StoreType} from "./redux/store";
+import DialogsContainer from "./componentss/Dialogs/DialogsContainer";
 
 type AppPropsType = {
     store: StoreType
@@ -25,14 +25,13 @@ const App: React.FC<AppPropsType> = (props) => {
             <div className='app-spagetti-content'>
                 <Routes>
                     <Route path='/dialogs' element={
-                        <Dialogs
+                        <DialogsContainer
                             store={props.store}
                         />
                     }/>
                     <Route path='/profile' element={
                         <Profile
-                        profilePage={props.store._state.profilePage}
-                        dispatch={props.store.dispatch.bind(props.store)}
+                            store={props.store}
                         />
                     }/>
                     <Route path='/news' element={<News/>}/>
