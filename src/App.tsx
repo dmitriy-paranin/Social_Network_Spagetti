@@ -16,23 +16,17 @@ type AppPropsType = {
 }
 
 const App: React.FC<AppPropsType> = (props) => {
-    const state = props.store.getState();
-
-    return (
+     return (
         <div className='app-spagetti'>
             <Header/>
             <NavBar/>
             <div className='app-spagetti-content'>
                 <Routes>
                     <Route path='/dialogs' element={
-                        <DialogsContainer
-                            store={props.store}
-                        />
+                        <DialogsContainer/>
                     }/>
                     <Route path='/profile' element={
-                        <Profile
-                            store={props.store}
-                        />
+                        <Profile/>
                     }/>
                     <Route path='/news' element={<News/>}/>
                     <Route path='/music' element={<Music/>}/>
