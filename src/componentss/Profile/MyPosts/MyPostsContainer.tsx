@@ -2,7 +2,7 @@ import React, {ChangeEvent} from "react";
 import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/profile-reducer";
 import {ActionsType, PostType} from "../../../redux/store";
 import MyPosts from "./MyPosts";
-import StoreContext from "../../../StoreContext";
+import {connect} from "react-redux";
 
 type MyPostsPropsType = {
     posts: Array<PostType>
@@ -10,29 +10,26 @@ type MyPostsPropsType = {
     dispatch: (action: ActionsType) => void
 }
 
-const MyPostsContainer = (props: MyPostsPropsType) => {
-    return (
-        <StoreContext.Consumer>
-            { (store) => {
-                let state = store.getState();
-
-                let addPost = () => {
-                    store.dispatch(addPostActionCreator());
-                }
-
-                let newTextHandler = (text /*e: ChangeEvent<HTMLTextAreaElement>*/) => {
-                    /*let text = e.currentTarget.value;*/
-                    let action = updateNewPostTextActionCreator(text);
-                    store.dispatch(action)
-                }
-
-                return (<MyPosts updateNewPostText={newTextHandler}
-                             addPost={addPost}
-                             posts={state.profilePage.posts}
-                             newPostText={state.profilePage.newPostText}/>)
-            }
-        }
-        </StoreContext.Consumer>
-    )
+const mapSateToProps = (state) => {
+    return {
+        posts: state.profilePage.posts,
+        newPostText: state.profilePage.newPostText
+    }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateNewPostText: (text /*e: ChangeEvent<HTMLTextAreaElement>*/) => {
+            /*let text = e.currentTarget.value;*/
+            let action = updateNewPostTextActionCreator(text);
+            dispatch(action)
+        }
+        addPost: () => {
+            dispatch(addPostActionCreator())
+        }
+    }
+}
+
+const MyPostsContainer = connect (mapSateToProps, mapDispatchToProps) (MyPosts);
+
 export default MyPostsContainer;
