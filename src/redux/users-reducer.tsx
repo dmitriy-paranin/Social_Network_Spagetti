@@ -1,20 +1,48 @@
+import {AddPostActionType, UpdateNewMessageBodyActionType, UpdateNewPostTextActionType} from "./store";
+import {sendMessageCreator} from "./dialogs-reducer";
+
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
 
-type ActionsType = {
+export type ActionsType =
+    AddPostActionType
+| UpdateNewPostTextActionType
+| UpdateNewMessageBodyActionType
+| AddMessageType
+| FollowType
+| UnfollowType
+| SetUsersType
+export type AddMessageType = ReturnType<typeof sendMessageCreator>
+export type FollowType = ReturnType<typeof followAC>
+export type UnfollowType = ReturnType<typeof unfollowAC>
+export type SetUsersType = ReturnType<typeof setUsersAC>
 
+
+
+export type UserLocationType = {
+    city: string
+    country: string
+}
+export type UserType = {
+    id: number
+    photoUrl: string
+    followed: boolean
+    fullName: string
+    status: string,
+    location: UserLocationType
+}
+export type InitialStateType = {
+    users: Array<UserType>
 }
 
-let initialState = {
-    users: [
-       /* {id: 1, followed: false, fullName: 'Dmitriy', status: 'I am the bast!', location: {city: 'Gomel', followed: true, country: 'Belarus'}},
-        {id: 1, followed: false, fullName: 'Kasia', status: 'I am sexy!', location: {city: 'Vroclaw', country: 'Poland'}},
-        {id: 1, fullName: 'Alex', status: 'I am good man!', location: {city: 'Amsterdam', country: 'Nederland'}},*/
-    ]
+
+let initialState: InitialStateType = {
+    users: [ ]
 };
 
-const usersReducer = (state = initialState, action: ActionsType) => {
+const usersReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
 
     switch (action.type) {
         case FOLLOW:
@@ -45,8 +73,8 @@ const usersReducer = (state = initialState, action: ActionsType) => {
     }
 };
 
-export const followAC = (userId) => ({type: FOLLOW, userId});
-export const unfollowAC = (userId) => ({type: UNFOLLOW, userId});
-export const setUsersAC = (users) => ({type: SET_USERS, users})
+export const followAC = (userId: number) => ({type: FOLLOW, userId}) as const;
+export const unfollowAC = (userId: number) => ({type: UNFOLLOW, userId}) as const;
+export const setUsersAC = (users: Array<UserType>) => ({type: SET_USERS, users}) as const;
 
 export default usersReducer;
